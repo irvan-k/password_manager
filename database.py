@@ -2,18 +2,16 @@ import psycopg2
 import bcrypt
 
 
-# this is just test for insert_query to db
-def test_insert():
+# store password in db
+def store_passwords(password, email, username, url, app_name):
     try:
         conn = psycopg2.connect(user="postgres", password="7092", host="localhost", port="5432",
                                 database="password_manager")
         cursor = conn.cursor()
-        insert_query = """ INSERT INTO account (password,email,username,url,app_name) VALUES ( 'jackpass', 'jack@email.com','jack','https://jack.com','jackmail')"""
-        cursor.execute(insert_query)
+        insert_query = """ INSERT INTO account (password,email,username,url,app_name) VALUES ( %s, %s, %s, %s, %s)"""
+        record_to_insert = (password, email, username, url, app_name)
+        cursor.execute(insert_query, record_to_insert)
         conn.commit()
-        print("1 Record inserted successfully")
-        cursor.execute("SELECT * from account")
-        print("Result ", cursor.fetchall())
 
     except (Exception, psycopg2.Error) as error:
         print("Error while connecting to PostgreSQL", error)
