@@ -1,6 +1,6 @@
 import subprocess
-from password_hash import get_password, get_random_password,copy2clip
-from database import store_passwords
+from password_hash import get_password, get_random_password, copy2clip
+from database import store_passwords, find_password, find_users
 
 
 def menu():
@@ -30,3 +30,15 @@ def create():
         username = ''
     url = input('Please paste the url to the site that you are creating the password for: ')
     store_passwords(passw, user_email, username, url, app_name)
+
+
+def find():
+    print('Please proivide the name of the site or app you want to find the password to')
+    app_name = input()
+    find_password(app_name)
+
+
+def find_accounts():
+    print('Please proivide the email that you want to find accounts for')
+    user_email = input()
+    find_users(user_email)

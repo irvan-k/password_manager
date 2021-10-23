@@ -1,7 +1,7 @@
 import psycopg2
 from database import master_password_first, master_password_check
 from password_hash import make_hash, get_password
-from menu import menu, create
+from menu import menu, create, find, find_accounts
 
 # menu
 # 1. create new password for a site
@@ -43,11 +43,9 @@ while choice != 'q':
     if choice == '1':
         create()
     if choice == '2':
-        # find_accounts()
-        exit()
+        find_accounts()
     if choice == '3':
-        exit()
-        # find()
+        find()
     else:
         choice = menu()
 exit()

@@ -17,7 +17,43 @@ def store_passwords(password, email, username, url, app_name):
         print("Error while connecting to PostgreSQL", error)
 
 
-# test_insert()
+def find_password(app_name):
+    try:
+        conn = psycopg2.connect(user="postgres", password="7092", host="localhost", port="5432",
+                                database="password_manager")
+        cursor = conn.cursor()
+        postgres_select_query = """ SELECT password FROM account WHERE app_name = '""" + app_name + "'"
+        cursor.execute(postgres_select_query, app_name)
+        conn.commit()
+        result = cursor.fetchone()
+        print('Password is: ')
+        print(result[0])
+
+    except (Exception, psycopg2.Error) as error:
+        print("Error while connecting to PostgreSQL", error)
+
+
+def find_users(user_email):
+    data = ('Password: ', 'Email: ', 'Username: ', 'url: ', 'App/Site name: ')
+    try:
+        conn = psycopg2.connect(user="postgres", password="7092", host="localhost", port="5432",
+                                database="password_manager")
+        cursor = conn.cursor()
+        postgres_select_query = """ SELECT * FROM account WHERE email = '""" + user_email + "'"
+        cursor.execute(postgres_select_query, user_email)
+        conn.commit()
+        result = cursor.fetchall()
+        print('')
+        print('RESULT')
+        print('')
+        for row in result:
+            for i in range(0, len(row) - 1):
+                print(data[i] + row[i])
+        print('')
+        print('-' * 30)
+    except (Exception, psycopg2.Error) as error:
+        print("Error while connecting to PostgreSQL", error)
+
 
 # this is set password master in database for first time with id 1 only
 
